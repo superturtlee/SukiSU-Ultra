@@ -132,11 +132,14 @@ static struct security_hook_list ksu_hooks[] = {
     LSM_HOOK_INIT(task_fix_setuid, ksu_task_fix_setuid),
 #endif
 };
-
+static const struct lsm_id ksu_lsmid = {
+	.name = "ksu",
+	.id = 120,
+};
 void __init ksu_lsm_hook_init(void)
 {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 11, 0)
-    security_add_hooks(ksu_hooks, ARRAY_SIZE(ksu_hooks), "ksu");
+    security_add_hooks(ksu_hooks, ARRAY_SIZE(ksu_hooks), &ksu_lsmid);
 #else
     // https://elixir.bootlin.com/linux/v4.10.17/source/include/linux/lsm_hooks.h#L1892
     security_add_hooks(ksu_hooks, ARRAY_SIZE(ksu_hooks));
